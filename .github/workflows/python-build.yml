@@ -1,0 +1,31 @@
+name: python build use uv
+
+jobs:
+  uv-example:
+    name: python
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+
+      - name: Install dependence
+        run:  uv sync
+
+      - name: build
+        run:  uv pyinstaller --onefile --windowed main.py -n main.exe
+
+      # 上傳編譯產物 (.exe)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-py-binary
+          path: dist/*.exe
+
