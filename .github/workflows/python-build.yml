@@ -1,5 +1,7 @@
 name: python build use uv
 
+on: [push, pull_request]
+
 jobs:
   uv-example:
     runs-on: windows-latest
